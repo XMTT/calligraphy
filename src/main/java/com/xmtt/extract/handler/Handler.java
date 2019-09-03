@@ -47,8 +47,8 @@ public class Handler {
         this.file = file;
     }
 
-    public void select(String key)throws SQLException {
-        List<Map<String, Object>> list = dataDao.select(con, "%"+key+"%");
+    public void select(String key) throws SQLException {
+        List<Map<String, Object>> list = dataDao.select(con, "%" + key + "%");
         for (Map<String, Object> map : list) {
             String title = (String) map.get("title");
             //System.out.println(map.get("content"));
@@ -56,39 +56,40 @@ public class Handler {
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(file);
-                System.out.println(map.get("content").getClass());
+                System.out.println("正在导出 " + title);
                 InputStream is = (InputStream) map.get("content");
                 handler(is, fos);
+                System.out.println(title + "导出完毕");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void handler(InputStream is,OutputStream fos) {
+    public void handler(InputStream is, OutputStream fos) {
+        try {
             try {
-                try {
-                    extract(is, fos, new byte[100]);
-                    fos.flush();
-                }finally {
-                    fos.close();
-                }
+                extract(is, fos, new byte[100]);
+                fos.flush();
+            } finally {
+                fos.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
+        }
     }
 
 
     public static void extract(InputStream is, OutputStream os, byte[] buf) throws IOException {
         //流数据zlib解压
         InflaterInputStream iis = new InflaterInputStream(is);
-        int len,count = buf.length;
+        int len, count = buf.length;
         int un = 1474, idx = 0, ret;
         byte[] head = new byte[un];
         //截掉文件头
@@ -104,7 +105,7 @@ public class Handler {
         //boolean head = true;
         while ((len = iis.read(buf)) >= 0) {
             //每次都要读取偶数位的长度
-            while (len < count&&len!=0) {
+            while (len < count && len != 0) {
                 len += iis.read(buf, len, count - len);
             }
             //os.write(buf, 0, len);
@@ -187,7 +188,6 @@ public class Handler {
     }
 
 
-
     public static byte[] hex2byte(String str) { // 字符串转二进制
         if (str == null) {
             return null;
@@ -268,8 +268,6 @@ public class Handler {
         System.out.println(str.trim());
         return str.trim();
     }
-
-
 
 
 }
