@@ -25,7 +25,8 @@ public class Main {
         Handler handler = new Handler();
         handler.setDataDao(dataDao);
         handler.setCon(getCon());
-        handler.select("赵佶 楷书千字文");
+        handler.setFile("E:/XMTT/calligraphy");
+        handler.select("李白");
     }
 
 

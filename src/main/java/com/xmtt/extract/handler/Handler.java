@@ -21,7 +21,7 @@ import java.util.zip.InflaterInputStream;
 public class Handler {
     private DataDao dataDao;
     private Connection con;
-    private String file = "E:/XMTT/calligraphy";
+    private String file;
 
     public DataDao getDataDao() {
         return dataDao;
