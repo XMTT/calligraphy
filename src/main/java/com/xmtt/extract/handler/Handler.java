@@ -47,8 +47,8 @@ public class Handler {
         this.file = file;
     }
 
-    public void select(String key) throws SQLException {
-        List<Map<String, Object>> list = dataDao.select(con, "%" + key + "%");
+    public void select(String key,Integer rows) throws SQLException {
+        List<Map<String, Object>> list = dataDao.select(con, "%" + key + "%",rows);
         for (Map<String, Object> map : list) {
             String title = (String) map.get("title");
             //System.out.println(map.get("content"));

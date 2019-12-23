@@ -20,13 +20,20 @@ public class Main {
 
     }
 
+    public static Connection getCon2() throws SQLException {
+        Connection con;
+        con = DriverManager.getConnection("jdbc:sqlite:E:/XMTT/calligraphy/中国古代书画经典珍藏高清图集3600张/db");
+        return con;
+
+    }
+
     public static void main(String[] args) throws SQLException, IOException {
         DataDao dataDao = new DataDao();
         Handler handler = new Handler();
         handler.setDataDao(dataDao);
         handler.setCon(getCon());
         handler.setFile("E:/XMTT/calligraphy");
-        handler.select("李白");
+        handler.select("快雪时晴",100);
     }
 
 

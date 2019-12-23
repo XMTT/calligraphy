@@ -14,11 +14,12 @@ import java.util.Map;
  */
 public class DataDao {
 
-    public List<Map<String, Object>> select(Connection con, final String title) throws SQLException {
+    public List<Map<String, Object>> select(Connection con, final String title, final Integer rows) throws SQLException {
 
-        return JdbcUtil.queryMaps(con, "select b.ID id,b.标题 title,z.内容 content from 标题 b left join 资料库 z on z.fid=b.ID where b.标题 like ? limit 5", new PreparedStatementConfig() {
+        return JdbcUtil.queryMaps(con, "select b.ID id,b.标题 title,z.内容 content from 标题 b left join 资料库 z on z.fid=b.ID where b.标题 like ? limit ?", new PreparedStatementConfig() {
             public void config(PreparedStatement ps) throws SQLException {
                 ps.setString(1, title);
+                ps.setInt(2, rows);
             }
         });
     }
